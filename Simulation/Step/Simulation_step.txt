@@ -1,0 +1,47 @@
+*** Note for SIMULATION!!!
+
+Main file: "final_Main.m"
+
+- Load data: 
+  + data.csv file (include EEG, ECG from mit-bih polysomnographic database). 
+  + mma.mat & emm.mat file (include Muscle & Electrode Motion artifacts from Noise Stress test).
+
+- Resample data mma & emm to Fs = 250Hz (source Fs = 360Hz).
+
+- Mixture noise: Random coefficient (optional).
+
+- Normalize ECG to ECG signal (var ~ power --> sqrt ~ Amplitude).
+
+- Mixture signals replicate 2 two positions (O1 and nearby O1).
+
+- Apply ICA 1st to 2 mixed signals --> EEG^ & ECG^.
+  + function (ICA.m -> acsobiro.m).
+	*Note: func remove_dt --> Remove detrend ECG signal.
+
+- Apply Wavelet Denoising technique to remove noise on EEG^ signal. --> Output: EEG^_Denoise.
+  + function (preprocess.m).
+
+- Successive Interference Cancellation process (SIC process).
+  + diff1 & diff2 are subtracted signals.
+	--> For example:  Mix1 = EEG + 0.2*ECG + 0.1*n1
+			  Mix2 = EEG + 0.25*ECG + 0.1*n2
+		assume the estimated EEG^_Denoise = EEG (Fact: EEG^_Denoise ~= EEG source).
+			=> diff1 = Mix1 - EEG^_Denoise = Mix1 - EEG = 0.2*ECG + 0.1*n1
+			=> diff2 = Mix2 - EEG^_Denoise = Mix2 - EEG = 0.25*ECG + 0.1*n2
+  	*Note: Only subtract one-time.
+
+- Apply ICA 2nd time: Include 3 inputs (diff1, diff2 & ECG^ from ICA 1st).
+  + function (same with ICA 1st).
+     --> Output: ECG~ (principle component), output2 & output3 (2 outputs are noise).
+
+- Apply Wavelet Denoising 2nd time: --> Output: ECG~_Denoise.	
+  + func (preprocess1.m).
+
+*Comparision:
+ + Correlation: func (corr). 
+ + Pan-Tomkins: func (pan_tompkin).
+
+
+
+
+

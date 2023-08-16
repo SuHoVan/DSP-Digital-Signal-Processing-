@@ -1,0 +1,22 @@
+run file Main.m 
+
+Load data and variables:
+	-loaded signal
+	-wavelet family name used									7
+	-t1, t2: the range of time that is used to process ( in second)					12 and 14
+Norm and mix:
+	-ecg and eeg2 or 1 and 3 because it's in colum 1 and 3 in the MIT-BIH dataset 			19 and 20
+	-mixed ratio is a = 0.1585 									37
+Wavelet deconstruction
+	-level of detail is chosen at 5									75
+	-donoho value for each level									177 to 181
+Result contain 9 figure
+
+1. Original MIT-BIH signal, EEG above and ECG below
+2. Mixed signal 
+3. ICA process
+4. Wavelet detail in time domain
+5. Wavelet detail in frequency domain
+6. Comparision between processed signal (above) with the original one (below)
+7. Processed signal applied to Pan-Tompkin
+8. Original signal applied to Pan-Tompkin
